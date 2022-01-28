@@ -60,7 +60,7 @@ public class TestController {
         // 英雄 ( hero )
         // 防御塔/火炮 ( defensivefacility )
         if (kind == 1) {
-            eip712Content = NFTUtil.createEIP712CheckDefensiveFacilityContent(
+            eip712Content = NFTUtil.createEIP712CheckMintSpaceshipContent(
                     tokenIds,
                     senderAddr, deadline);
         }else if (kind == 2) {
@@ -68,7 +68,7 @@ public class TestController {
                     tokenIds,
                     senderAddr, deadline);
         }else if (kind == 3) {
-            eip712Content = NFTUtil.createEIP712CheckMintSpaceshipContent(
+            eip712Content = NFTUtil.createEIP712CheckDefensiveFacilityContent(
                     tokenIds,
                     senderAddr, deadline);
         }
