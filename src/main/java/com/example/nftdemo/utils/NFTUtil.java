@@ -15,7 +15,7 @@ import java.nio.ByteBuffer;
 @Slf4j
 public class NFTUtil {
     // 身份认证器
-    private static Credentials credentials =  Credentials.create("d404c9781ce419ce03a559def5e28453dfbb86b69cde818062c4793a097b9b06"); ;
+    private static Credentials credentials =  Credentials.create("0475e34df2e6338ff522dc917c95488de31105d11a72080cc53790b17b79648b"); ;
 
     // 加密器名称
     private static String name = "MintManager" ;

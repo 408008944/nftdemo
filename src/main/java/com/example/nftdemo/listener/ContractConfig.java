@@ -25,10 +25,9 @@ import org.web3j.tx.TransactionManager;
 import java.io.IOException;
 import java.math.BigInteger;
 
-*/
-/**
+*
  * 智能合約
- *//*
+
 
 @Configuration
 public class ContractConfig {
