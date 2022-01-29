@@ -28,7 +28,7 @@ public class NFTUtil {
 
     // 合约地址
     //private static String contractAddr = "0x88E58b54b4Ec6B4Ef82c234905a61c1c87BD614e" ;
-    private static String contractAddr = "0x270D376fD4f71041C847ED94781D8bcE4Ced44F0" ;
+    private static String contractAddr = "0xcfdee3b93394f1c94E921D162C3376C48C447Bcd" ;
 
     // 签名申请钱包地址
     //private static String senderAddr = "0x27De63C5724aB7619404744A77c82A199D9bd18B" ;

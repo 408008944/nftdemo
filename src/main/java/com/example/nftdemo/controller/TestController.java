@@ -32,22 +32,22 @@ public class TestController {
     public Object test(String senderAddr) throws IOException {
 
         Random random = new Random();
-        //int kind = random.nextInt(3) + 1;
-        int kind = 1;
+        int kind = random.nextInt(3) + 1;
+
 
         SysNftInfo sysNftInfo = new SysNftInfo();
         sysNftInfoMapper.insert(sysNftInfo);
 
-        //BigInteger tokenId = BigInteger.valueOf(sysNftInfo.getId() * 100 + 1);
-        BigInteger tokenId = BigInteger.valueOf(10);
+        BigInteger tokenId = BigInteger.valueOf(sysNftInfo.getId() * 100 + 1);
+
 
         BigInteger[] tokenIds = new BigInteger[1];
         tokenIds[0] = tokenId;
 
         System.out.println(tokenIds[0]);
 
-        //BigInteger deadline = BigInteger.valueOf(System.currentTimeMillis());
-        BigInteger deadline = BigInteger.valueOf(10000);
+        BigInteger deadline = BigInteger.valueOf(System.currentTimeMillis());
+
 
         log.info("自增ID:" + sysNftInfo.getId());
         log.info("tokenId:" + tokenId);
@@ -103,13 +103,13 @@ public class TestController {
         return JSON.toJSONString(map);
     }
 
-    private Web3j web3j = Web3j.build(new HttpService("http://192.168.50.224:7545"), 1000, Async.defaultExecutorService());
+    //private Web3j web3j = Web3j.build(new HttpService("http://192.168.50.224:7545"), 1000, Async.defaultExecutorService());
 
     @PostMapping("/test2")
     public Object test2() {
 
 
-        web3j.blockObservable(true).subscribe(ethBlock -> {
+        /*web3j.blockObservable(true).subscribe(ethBlock -> {
             EthBlock.Block block = ethBlock.getBlock();
             log.info("hash: " + block.getHash());
             log.info("number: " + block.getNumber());
@@ -122,7 +122,16 @@ public class TestController {
                 log.info("Value: "+o.getValue());
             });
         });
+*/
 
+        return null;
+    }
+
+
+    @PostMapping("/test3")
+    public Object test3(String o) {
+
+        log.info("json数据：" ,o);
 
         return null;
     }

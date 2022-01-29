@@ -1,8 +1,5 @@
-/*
 package com.example.nftdemo.listener;
 
-import com.sun.deploy.trace.Trace;
-import io.liqiangz.contract.Trace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,23 +9,21 @@ import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.Request;
-import org.web3j.protocol.core.methods.request;
 import org.web3j.protocol.core.methods.request.EthFilter;
-import org.web3j.protocol.core.methods.response.AnmoBlockNumber;
 import org.web3j.protocol.core.methods.response.EthBlockNumber;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.ManagedTransaction;
 import org.web3j.tx.TransactionManager;
+import org.web3j.utils.Async;
 
 import java.io.IOException;
 import java.math.BigInteger;
 
-*
+/**
  * 智能合約
-
-
+ */
 @Configuration
 public class ContractConfig {
 
@@ -38,10 +33,10 @@ public class ContractConfig {
     @Bean
     @Scope("prototype")
     public Web3j web3j() {
-        return Web3j.build(new HttpService("http://192.168.0.104:15450"));
+        return Web3j.build(new HttpService("http://192.168.50.224:7545"), 1000, Async.defaultExecutorService());
     }
 
-    @Bean
+    /*@Bean
     @Autowired
     public Trace trace(Web3j web3j) throws IOException {
         Trace contract;
@@ -72,7 +67,6 @@ public class ContractConfig {
         return new EthFilter(DefaultBlockParameter.valueOf(fromblock),
                 //如果监听不到这里的地址可以把 0x 给去掉
                 DefaultBlockParameterName.LATEST, trace.getContractAddress());
-    }
+    }*/
 
 }
-*/
