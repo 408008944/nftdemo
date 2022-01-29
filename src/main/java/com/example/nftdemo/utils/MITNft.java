@@ -448,6 +448,11 @@ public class MITNft extends Contract {
             public TransferEventResponse apply(Log log) {
                 EventValuesWithLog eventValues = extractEventParametersWithLog(TRANSFER_EVENT, log);
                 TransferEventResponse typedResponse = new TransferEventResponse();
+
+                if (eventValues == null) {
+                    return typedResponse;
+                }
+
                 typedResponse.log = log;
                 typedResponse.from = (String) eventValues.getIndexedValues().get(0).getValue();
                 typedResponse.to = (String) eventValues.getIndexedValues().get(1).getValue();

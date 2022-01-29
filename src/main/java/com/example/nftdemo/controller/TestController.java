@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -33,7 +34,6 @@ public class TestController {
 
         Random random = new Random();
         int kind = random.nextInt(3) + 1;
-
 
         SysNftInfo sysNftInfo = new SysNftInfo();
         sysNftInfoMapper.insert(sysNftInfo);
@@ -129,10 +129,42 @@ public class TestController {
 
 
     @PostMapping("/test3")
-    public Object test3(String o) {
+    public Object test3() {
 
-        log.info("json数据：" ,o);
+        String s = "{\"from\":\"0x0000000000000000000000000000000000000000\",\"log\":{\"address\":\"0xfa4564e2f61818230eedc6e52bb4dd177d7f0433\",\"blockHash\":\"0xbe7b93a11f0c214f9c23ec0aa81654c1a368c71c37de1d4053b52bc554135c08\",\"blockNumber\":8,\"blockNumberRaw\":\"0x8\",\"data\":\"0x\",\"logIndex\":0,\"logIndexRaw\":\"0x0\",\"removed\":false,\"topics\":[\"0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef\",\"0x0000000000000000000000000000000000000000000000000000000000000000\",\"0x0000000000000000000000004d0ae32f636edcbb52bbcf741b01bcafc72adc5e\",\"0x000000000000000000000000000000000000000000000000000000000000000a\"],\"transactionHash\":\"0x379681a0cdb6185b820046e685f30b605fb77e89a2d3332614175208e3d5871e\",\"transactionIndex\":0,\"transactionIndexRaw\":\"0x0\",\"type\":\"mined\"},\"to\":\"0x4d0ae32f636edcbb52bbcf741b01bcafc72adc5e\",\"tokenId\":10}\n";
 
-        return null;
+        Map map = (Map) JSON.parse(s);
+
+        System.out.println(map);
+
+        Object tokenId = map.get("tokenId");
+        System.out.println("tokenId = " + tokenId.toString());
+
+        Object from = map.get("from");
+        System.out.println("from = " + from.toString());
+
+        Object to = map.get("to");
+        System.out.println("to = " + to.toString());
+
+        Map log = (Map) map.get("log");
+        System.out.println("log = " + log);
+
+        System.out.println("-------------------------------------");
+
+        Object blockHash = log.get("blockHash");
+        System.out.println("blockHash = " + blockHash.toString());
+
+        Object blockNumber = log.get("blockNumber");
+        System.out.println("blockNumber = " + blockNumber.toString());
+
+        Object address = log.get("address");
+        System.out.println("address = " + address.toString());
+
+        Object transactionHash = log.get("transactionHash");
+        System.out.println("transactionHash = " + transactionHash.toString());
+
+        return map;
     }
+
+
 }

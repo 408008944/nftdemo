@@ -1,6 +1,8 @@
 package com.example.nftdemo.listener;
 
 import com.alibaba.fastjson.JSON;
+import com.example.nftdemo.mongo.MgNftInfo;
+import com.example.nftdemo.mongo.MgNftInfoRepository;
 import com.example.nftdemo.utils.MITNft;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 服务监听器，继承ApplicationRunner，在spring启动时启动
@@ -105,10 +108,23 @@ public class ServiceRunner implements ApplicationRunner {
 
     }
 */
+    @Autowired
+    private MgNftInfoRepository mgNftInfoRepository;
+
 
     public void startlistener() {
 
         Web3j web3j = Web3j.build(new HttpService("http://192.168.50.146:7545"), 1000, Async.defaultExecutorService());
+
+        /*EthFilter filter = new EthFilter(DefaultBlockParameterName.EARLIEST,
+                DefaultBlockParameterName.LATEST, Arrays.asList("0xFa4564E2f61818230EEDC6e52BB4dd177d7F0433"
+                ,"0xa8676f3fa2540555d78372F944F3e215eaD864c9"
+                ,"0x16e0Fe82021c733Ae1e85904968F12b2B96AaF32"));
+
+
+        web3j.ethLogObservable(filter).subscribe(log -> {
+            System.out.println(log.toString());
+        });*/
 
         EthFilter ethFilter = new EthFilter(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST,
                 Arrays.asList("0xFa4564E2f61818230EEDC6e52BB4dd177d7F0433"
@@ -116,21 +132,54 @@ public class ServiceRunner implements ApplicationRunner {
                 ,"0x16e0Fe82021c733Ae1e85904968F12b2B96AaF32"));
 
         ContractGasProvider contractGasProvider = new DefaultGasProvider() ;
+        // 私钥
         Credentials credentials = Credentials.create("46a90a29de39024f14bf8474aaa9a6ba46bcbfae62ec1618b910b268f6ef967c") ;
         MITNft t1 = MITNft.load("0xFa4564E2f61818230EEDC6e52BB4dd177d7F0433", web3j, credentials ,contractGasProvider) ;
         MITNft t2 = MITNft.load("0xa8676f3fa2540555d78372F944F3e215eaD864c9", web3j, credentials ,contractGasProvider) ;
         MITNft t3 = MITNft.load("0x16e0Fe82021c733Ae1e85904968F12b2B96AaF32", web3j, credentials ,contractGasProvider) ;
 
+
         t1.transferEventFlowable(ethFilter).subscribe(event -> {
-            log.info("接收到事件信息 1: {} ", JSON.toJSONString(event));
+            if (JSON.toJSONString(event) != null) {
+                log.info("接收到事件信息 1: {} ", JSON.toJSONString(event));
+            }
         }) ;
 
         t2.transferEventFlowable(ethFilter).subscribe(event -> {
-            log.info("接收到事件信息 2: {} ", JSON.toJSONString(event));
+            if (JSON.toJSONString(event) != null) {
+                log.info("接收到事件信息 2: {} ", JSON.toJSONString(event));
+            }
         }) ;
 
         t3.transferEventFlowable(ethFilter).subscribe(event -> {
-            log.info("接收到事件信息 3: {} ", JSON.toJSONString(event));
+
+            if (!"{}".equals(JSON.toJSONString(event))) {
+                Map map = (Map) JSON.parse(JSON.toJSONString(event));
+                Object tokenId = map.get("tokenId");
+                Object from = map.get("from");
+                Object to = map.get("to");
+                Map log = (Map) map.get("log");
+                Object blockHash = log.get("blockHash");
+                Object blockNumber = log.get("blockNumber");
+                Object address = log.get("address");
+                Object transactionHash = log.get("transactionHash");
+
+                MgNftInfo mgNftInfo = new MgNftInfo();
+                mgNftInfo.setAddress(address.toString());
+                mgNftInfo.setBlockHash(blockHash.toString());
+                mgNftInfo.setFrom(from.toString());
+                mgNftInfo.setTo(to.toString());
+                mgNftInfo.setTokenId(tokenId.toString());
+                mgNftInfo.setTransactionHash(transactionHash.toString());
+                mgNftInfo.setBlockNumber(blockNumber.toString());
+                mgNftInfo.setKind("3");
+
+                mgNftInfoRepository.save(mgNftInfo);
+
+                System.out.println("MongoDB存储完成");
+            }
+
+
         }) ;
     }
 }
