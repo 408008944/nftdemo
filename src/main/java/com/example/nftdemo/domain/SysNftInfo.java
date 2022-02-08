@@ -12,27 +12,51 @@ import java.util.Date;
 @TableName("sys_nft_info")
 public class SysNftInfo {
 
+    /**
+     * 自增ID
+     */
     @TableId(type = IdType.AUTO)
     private Long id;
 
+    /**
+     * tokenId
+     */
     @TableField("token_id")
     private String tokenId;
 
+    /**
+     * 用户地址
+     */
     @TableField("sender_addr")
     private String senderAddr;
 
+    /**
+     * 随机kind
+     */
     @TableField("kind")
     private int kind;
 
+    /**
+     * 链标识
+     */
     @TableField("logo")
     private int logo;
 
+    /**
+     * 价格
+     */
     @TableField("price")
     private String price;
 
-    @TableField("style")
-    private int style;
+    /**
+     * 删除标识
+     */
+    @TableField("deleted")
+    private int deleted;
 
+    /**
+     * 创建时间
+     */
     @TableField("create_time")
     private Date createTime;
 }
