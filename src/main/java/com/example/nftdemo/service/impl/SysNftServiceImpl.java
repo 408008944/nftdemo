@@ -1,5 +1,6 @@
 package com.example.nftdemo.service.impl;
 
+import com.example.nftdemo.constant.NftConstant;
 import com.example.nftdemo.domain.SysNftInfo;
 import com.example.nftdemo.mapper.SysNftInfoMapper;
 import com.example.nftdemo.service.SysNftServiceApi;
@@ -78,9 +79,9 @@ public class SysNftServiceImpl implements SysNftServiceApi {
 
         // 根据kind铸造
         switch (kind) {
-            case 1 : eip712Content = NFTUtil.createEIP712CheckMintSpaceshipContent(tokenIds, senderAddr, deadline);break;
-            case 2 : eip712Content = NFTUtil.createEIP712CheckHeroContent(tokenIds, senderAddr, deadline);break;
-            case 3 : eip712Content = NFTUtil.createEIP712CheckDefensiveFacilityContent(tokenIds, senderAddr, deadline);break;
+            case 1 : eip712Content = NFTUtil.createEIP712CheckMintContent(tokenIds, senderAddr, deadline, NftConstant.MINT_CONTENT_SPACESHIP);break;
+            case 2 : eip712Content = NFTUtil.createEIP712CheckMintContent(tokenIds, senderAddr, deadline,NftConstant.MINT_CONTENT_HERO);break;
+            case 3 : eip712Content = NFTUtil.createEIP712CheckMintContent(tokenIds, senderAddr, deadline,NftConstant.MINT_CONTENT_DEFENSIVEFACILITY);break;
         }
 
         // 生成数据签名
