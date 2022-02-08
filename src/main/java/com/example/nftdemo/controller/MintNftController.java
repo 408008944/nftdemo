@@ -24,4 +24,14 @@ public class MintNftController {
         Map<String,Object> map = sysNftServiceApi.mintByBsc(senderAddr);
         return JSON.toJSONString(map);
     }
+
+    @PostMapping("/eth")
+    public Object mintByEth(String senderAddr) throws IOException {
+        if (senderAddr == null) {
+            return -1;
+        }
+        Map<String,Object> map = sysNftServiceApi.mintByEth(senderAddr);
+        return JSON.toJSONString(map);
+    }
+
 }

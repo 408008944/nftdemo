@@ -22,6 +22,9 @@ public class SysNftServiceImpl implements SysNftServiceApi {
     @Autowired
     private SysNftInfoMapper sysNftInfoMapper;
 
+    /**
+     *  BSC
+     */
     @Override
     public Map<String, Object> mintByBsc(String senderAddr) throws IOException {
         /*
@@ -32,11 +35,40 @@ public class SysNftServiceImpl implements SysNftServiceApi {
          */
         int kind = new Random().nextInt(3) + 1;
 
+        Map<String, Object> map = this.mintNft(senderAddr, kind, 1,new Date());
+
+        return map;
+    }
+
+    /**
+     *  ETH
+     */
+    @Override
+    public Map<String, Object> mintByEth(String senderAddr) throws IOException {
+
+        Date now = new Date();
+        Map<String, Object> Data = null;
+        Map<String, Object> map ;
+
+        for (int kind = 1; kind <= 3; kind++) {
+            map = this.mintNft(senderAddr, kind, 1,now);
+            Data.put(String.valueOf(kind),map);
+            map.clear();
+        }
+
+        return Data;
+    }
+
+    /**
+     * 通用Mint
+     */
+    private Map<String,Object> mintNft(String senderAddr,int kind,int logo,Date createTime) throws IOException {
+
         SysNftInfo sysNftInfo = new SysNftInfo();
         sysNftInfoMapper.insert(sysNftInfo);
 
         // 生成自增tokenId
-        BigInteger tokenId = BigInteger.valueOf(sysNftInfo.getId() * 100 + 1);
+        BigInteger tokenId = BigInteger.valueOf(sysNftInfo.getId() * 100 + logo);
         BigInteger[] tokenIds = new BigInteger[1];
         tokenIds[0] = tokenId;
 
@@ -44,7 +76,7 @@ public class SysNftServiceImpl implements SysNftServiceApi {
 
         String eip712Content = null;
 
-        // 根据随机kind铸造
+        // 根据kind铸造
         switch (kind) {
             case 1 : eip712Content = NFTUtil.createEIP712CheckMintSpaceshipContent(tokenIds, senderAddr, deadline);break;
             case 2 : eip712Content = NFTUtil.createEIP712CheckHeroContent(tokenIds, senderAddr, deadline);break;
@@ -58,10 +90,10 @@ public class SysNftServiceImpl implements SysNftServiceApi {
         sysNftInfo.setKind(kind);
         sysNftInfo.setSenderAddr(senderAddr);
         sysNftInfo.setTokenId(tokenId.toString());
-        sysNftInfo.setLogo(2);
+        sysNftInfo.setLogo(logo);
         sysNftInfo.setPrice("10");
         sysNftInfo.setDeleted(0);
-        sysNftInfo.setCreateTime(new Date());
+        sysNftInfo.setCreateTime(createTime);
 
         sysNftInfoMapper.updateById(sysNftInfo);
 
