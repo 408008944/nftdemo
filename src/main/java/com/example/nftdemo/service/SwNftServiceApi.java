@@ -3,7 +3,7 @@ package com.example.nftdemo.service;
 import java.io.IOException;
 import java.util.Map;
 
-public interface SysNftServiceApi {
+public interface SwNftServiceApi {
     /**
      * BSC方式Mint
      * @param senderAddr 用户地址

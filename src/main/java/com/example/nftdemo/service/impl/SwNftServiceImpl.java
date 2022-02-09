@@ -1,9 +1,9 @@
 package com.example.nftdemo.service.impl;
 
 import com.example.nftdemo.constant.NftConstant;
-import com.example.nftdemo.domain.SysNftInfo;
-import com.example.nftdemo.mapper.SysNftInfoMapper;
-import com.example.nftdemo.service.SysNftServiceApi;
+import com.example.nftdemo.domain.SwNftInfo;
+import com.example.nftdemo.mapper.SwNftInfoMapper;
+import com.example.nftdemo.service.SwNftServiceApi;
 import com.example.nftdemo.utils.NFTUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,10 @@ import java.util.Random;
 
 @Service
 @Slf4j
-public class SysNftServiceImpl implements SysNftServiceApi {
+public class SwNftServiceImpl implements SwNftServiceApi {
 
     @Autowired
-    private SysNftInfoMapper sysNftInfoMapper;
+    private SwNftInfoMapper swNftInfoMapper;
 
     /**
      *  BSC
@@ -36,7 +36,7 @@ public class SysNftServiceImpl implements SysNftServiceApi {
          */
         int kind = new Random().nextInt(3) + 1;
 
-        Map<String, Object> map = this.mintNft(senderAddr, kind, 1,new Date());
+        Map<String, Object> map = this.mintNft(senderAddr, kind, 2,new Date());
 
         return map;
     }
@@ -65,11 +65,11 @@ public class SysNftServiceImpl implements SysNftServiceApi {
      */
     private Map<String,Object> mintNft(String senderAddr,int kind,int logo,Date createTime) throws IOException {
 
-        SysNftInfo sysNftInfo = new SysNftInfo();
-        sysNftInfoMapper.insert(sysNftInfo);
+        SwNftInfo swNftInfo = new SwNftInfo();
+        swNftInfoMapper.insert(swNftInfo);
 
         // 生成自增tokenId
-        BigInteger tokenId = BigInteger.valueOf(sysNftInfo.getId() * 100 + logo);
+        BigInteger tokenId = BigInteger.valueOf(swNftInfo.getId() * 100 + logo);
         BigInteger[] tokenIds = new BigInteger[1];
         tokenIds[0] = tokenId;
 
@@ -88,15 +88,15 @@ public class SysNftServiceImpl implements SysNftServiceApi {
         String signature = NFTUtil.signature(eip712Content);
 
         // 更新nft信息
-        sysNftInfo.setKind(kind);
-        sysNftInfo.setSenderAddr(senderAddr);
-        sysNftInfo.setTokenId(tokenId.toString());
-        sysNftInfo.setLogo(logo);
-        sysNftInfo.setPrice("10");
-        sysNftInfo.setDeleted(0);
-        sysNftInfo.setCreateTime(createTime);
+        swNftInfo.setKind(kind);
+        swNftInfo.setSenderAddr(senderAddr);
+        swNftInfo.setTokenId(tokenId.toString());
+        swNftInfo.setLogo(logo);
+        swNftInfo.setPrice("10");
+        swNftInfo.setDeleted(0);
+        swNftInfo.setCreateTime(createTime);
 
-        sysNftInfoMapper.updateById(sysNftInfo);
+        swNftInfoMapper.updateById(swNftInfo);
 
         Map<String, Object> map = new HashMap<>();
         map.put("signature",signature);

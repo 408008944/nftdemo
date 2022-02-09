@@ -1,7 +1,7 @@
 package com.example.nftdemo.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.example.nftdemo.service.SysNftServiceApi;
+import com.example.nftdemo.service.SwNftServiceApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,14 +14,14 @@ import java.util.Map;
 public class MintNftController {
 
     @Autowired
-    private SysNftServiceApi sysNftServiceApi;
+    private SwNftServiceApi swNftServiceApi;
 
     @PostMapping("/bsc")
     public Object mintByBsc(String senderAddr) throws IOException {
         if (senderAddr == null) {
             return -1;
         }
-        Map<String,Object> map = sysNftServiceApi.mintByBsc(senderAddr);
+        Map<String,Object> map = swNftServiceApi.mintByBsc(senderAddr);
         return JSON.toJSONString(map);
     }
 
@@ -30,7 +30,7 @@ public class MintNftController {
         if (senderAddr == null) {
             return -1;
         }
-        Map<String,Object> map = sysNftServiceApi.mintByEth(senderAddr);
+        Map<String,Object> map = swNftServiceApi.mintByEth(senderAddr);
         return JSON.toJSONString(map);
     }
 

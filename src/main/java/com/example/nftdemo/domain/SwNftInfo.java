@@ -9,8 +9,8 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@TableName("sys_nft_info")
-public class SysNftInfo {
+@TableName("sw_nft_info")
+public class SwNftInfo {
 
     /**
      * 自增ID

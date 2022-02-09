@@ -1,9 +1,9 @@
 package com.example.nftdemo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.nftdemo.domain.SysNftInfo;
+import com.example.nftdemo.domain.SwNftInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface SysNftInfoMapper extends BaseMapper<SysNftInfo> {
+public interface SwNftInfoMapper extends BaseMapper<SwNftInfo> {
 }
